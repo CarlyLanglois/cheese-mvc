@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by carlylanglois on 5/2/17.
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 @RequestMapping("cheese")
 public class CheeseController {
 
-    static ArrayList<String> cheeses = new ArrayList<>();
+    static HashMap<String, String> cheeses = new HashMap<>();
 
     // Request path: /cheese
     @RequestMapping(value = "")
@@ -36,9 +37,9 @@ public class CheeseController {
     }
 
     @RequestMapping(value="add", method = RequestMethod.POST)
-    public String processAddCheeseForm(@RequestParam String cheeseName){
+    public String processAddCheeseForm(@RequestParam String cheeseName, String cheeseDescription){
         //String cheeseName = request.getParameter("cheeseName");
-        cheeses.add(cheeseName);
+        cheeses.put(cheeseName, cheeseDescription);
 
         //redirect to /cheese (the path that was empty)
         return "redirect:";
