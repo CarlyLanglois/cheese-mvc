@@ -65,6 +65,7 @@ public class CheeseController {
 
         //redirect to /cheese (the path that was empty)
         return "redirect:";
+        
     }
 
 
