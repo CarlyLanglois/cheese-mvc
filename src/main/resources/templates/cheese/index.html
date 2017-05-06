@@ -10,9 +10,9 @@
 
 
     <ul th:each="cheese : ${cheeses}">
-        <li th:text="${cheese.key}"></li>
+        <li th:text="${cheese.getName()}"></li>
             <ul>
-                <li th:text="${cheese.value}"></li>
+                <li th:text="${cheese.getDescription()}"></li>
             </ul>
     </ul>
 
