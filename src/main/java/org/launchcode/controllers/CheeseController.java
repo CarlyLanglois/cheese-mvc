@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by carlylanglois on 5/2/17.
@@ -22,7 +23,6 @@ public class CheeseController {
     // Request path: /cheese
     @RequestMapping(value = "")
     public String index(Model model) {
-
 
         model.addAttribute("cheeses", cheeses);
         model.addAttribute("title", "My Cheeses");
@@ -44,4 +44,28 @@ public class CheeseController {
         //redirect to /cheese (the path that was empty)
         return "redirect:";
     }
+
+    @RequestMapping(value="remove", method = RequestMethod.GET)
+    public String displayRemoveCheeseForm(Model model) {
+        model.addAttribute("cheeses", cheeses);
+        model.addAttribute("title", "Remove Cheese");
+
+        if (cheeses.isEmpty()) {
+            return "redirect:";
+        }
+         else {
+            return "cheese/remove";
+        }
+    }
+
+    @RequestMapping(value="remove", method = RequestMethod.POST)
+    public String processRemoveCheeseForm(@RequestParam ArrayList<String> cheese){
+
+        cheeses.keySet().removeAll(cheese);
+
+        //redirect to /cheese (the path that was empty)
+        return "redirect:";
+    }
+
+
 }
