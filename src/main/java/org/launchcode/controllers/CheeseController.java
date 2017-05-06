@@ -1,8 +1,10 @@
 package org.launchcode.controllers;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.launchcode.models.Cheese;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +20,8 @@ import java.util.Map;
 @RequestMapping("cheese")
 public class CheeseController {
 
-    static HashMap<String, String> cheeses = new HashMap<>();
+    //static HashMap<String, String> cheeses = new HashMap<>()
+    static ArrayList<Cheese> cheeses = new ArrayList<>();
 
     // Request path: /cheese
     @RequestMapping(value = "")
@@ -39,7 +42,10 @@ public class CheeseController {
     @RequestMapping(value="add", method = RequestMethod.POST)
     public String processAddCheeseForm(@RequestParam String cheeseName, String cheeseDescription){
         //String cheeseName = request.getParameter("cheeseName");
-        cheeses.put(cheeseName, cheeseDescription);
+        Cheese aCheese = new Cheese();
+        aCheese.setName(cheeseName);
+        aCheese.setDescription(cheeseDescription);
+        cheeses.add(aCheese);
 
         //redirect to /cheese (the path that was empty)
         return "redirect:";
@@ -59,9 +65,17 @@ public class CheeseController {
     }
 
     @RequestMapping(value="remove", method = RequestMethod.POST)
-    public String processRemoveCheeseForm(@RequestParam ArrayList<String> cheese){
+    public String processRemoveCheeseForm(@RequestParam ArrayList<String> cheeseToRemove){
 
-        cheeses.keySet().removeAll(cheese);
+        ArrayList<Cheese> badCheeses = new ArrayList<>();
+        for (String badCheese : cheeseToRemove){
+            for (Cheese cheese : cheeses){
+                if(cheese.getName().equals(badCheese)) {
+                    badCheeses.add(cheese);
+                }
+            }
+        }
+        cheeses.removeAll(badCheeses);
 
         //redirect to /cheese (the path that was empty)
         return "redirect:";
